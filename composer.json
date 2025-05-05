@@ -1,0 +1,27 @@
+{
+    "name": "wp-media/wp-mixpanel",
+    "description": "WordPress Mixpanel Integration",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "WP Media",
+            "homepage": "https://github.com/wp-media/wp-mixpanel",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/wp-media/wp-mixpanel/issues"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "require": {
+        "php": ">=7.4",
+        "mixpanel/mixpanel-php" : "2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "WPMedia\\Mixpanel\\": "src/"
+        }
+    }
+}

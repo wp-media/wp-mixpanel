@@ -13,15 +13,28 @@
         "issues": "https://github.com/wp-media/wp-mixpanel/issues"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "require": {
         "php": ">=7.4",
         "mixpanel/mixpanel-php" : "2.*"
     },
+    "require-dev": {
+        "phpcompatibility/phpcompatibility-wp": "^2.0",
+        "roave/security-advisories": "dev-master",
+        "wp-coding-standards/wpcs": "^3"
+    },
     "autoload": {
         "psr-4": {
             "WPMedia\\Mixpanel\\": "src/"
         }
+    },
+    "scripts": {
+        "phpcs": "vendor/bin/phpcs",
+        "phpcs:ci": "vendor/bin/phpcs --report-full --report-checkstyle=./phpcs-report.xml",
+        "phpcs:fix": "vendor/bin/phpcbf"
     }
 }

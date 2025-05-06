@@ -25,6 +25,8 @@
 
 	<rule ref="WordPress">
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
+		<exclude name="Squiz.Commenting.FileComment.Missing" />
+		<exclude name="Squiz.Commenting.ClassComment.Missing" />
 	</rule>
     <rule ref="WordPress.Files.FileName">
         <properties>

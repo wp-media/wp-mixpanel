@@ -54,13 +54,7 @@ class Optin {
 	 * @return void
 	 */
 	public function enable(): void {
-		if ( ! current_user_can( $this->capability ) ) {
-			return;
-		}
-
-		$optin = get_option( $this->plugin_slug . '_mixpanel_optin' );
-
-		if ( $optin ) {
+		if ( $this->is_enabled() ) {
 			return;
 		}
 
@@ -73,13 +67,7 @@ class Optin {
 	 * @return void
 	 */
 	public function disable(): void {
-		if ( ! current_user_can( $this->capability ) ) {
-			return;
-		}
-
-		$optin = get_option( $this->plugin_slug . '_mixpanel_optin' );
-
-		if ( ! $optin ) {
+		if ( ! $this->is_enabled() ) {
 			return;
 		}
 

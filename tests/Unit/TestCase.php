@@ -7,8 +7,18 @@ use ReflectionObject;
 use WPMedia\PHPUnit\Unit\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase {
+	/**
+	 * Configuration for the test data.
+	 *
+	 * @var array{'test_data'?: array<string, mixed>}
+	 */
 	protected $config;
 
+	/**
+	 * Setup method for the test case.
+	 *
+	 * @return void
+	 */
 	protected function set_up() {
 		parent::set_up();
 
@@ -17,7 +27,12 @@ abstract class TestCase extends BaseTestCase {
 		}
 	}
 
-	public function configTestData() {
+	/**
+	 * Get the test data configuration.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function configTestData(): array {
 		if ( empty( $this->config ) ) {
 			$this->loadTestDataConfig();
 		}
@@ -27,9 +42,18 @@ abstract class TestCase extends BaseTestCase {
 			: $this->config;
 	}
 
-	protected function loadTestDataConfig() {
+	/**
+	 * Load test data configuration.
+	 *
+	 * @return void
+	 */
+	protected function loadTestDataConfig(): void {
 		$obj      = new ReflectionObject( $this );
 		$filename = $obj->getFileName();
+
+		if ( false === $filename ) {
+			return;
+		}
 
 		$this->config = $this->getTestData( dirname( $filename ), basename( $filename, '.php' ) );
 	}

@@ -25,9 +25,9 @@
 
 	<rule ref="WordPress">
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
+		<exclude name="Squiz.Commenting.FileComment.MissingPackageTag" />
 		<exclude name="Squiz.Commenting.FileComment.Missing" />
 		<exclude name="Squiz.Commenting.ClassComment.Missing" />
-		<exclude name="Squiz.Commenting.FileComment.MissingPackageTag" />
 		<exclude name="Universal.Arrays.DisallowShortArraySyntax.Found" />
 	</rule>
     <rule ref="WordPress.Files.FileName">

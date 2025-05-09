@@ -3,7 +3,6 @@ includes:
 parameters:
     level: 9
     inferPrivatePropertyTypeFromConstructor: true
-    reportUnmatchedIgnoredErrors: false
     paths:
         - src/
         - tests/

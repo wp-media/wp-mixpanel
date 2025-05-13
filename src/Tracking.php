@@ -63,4 +63,66 @@ class Tracking {
 			'0'
 		);
 	}
+
+	/**
+	 * Get the WordPress version
+	 *
+	 * @return string
+	 */
+	public function get_wp_version(): string {
+		$version = preg_replace( '@^(\d\.\d+).*@', '\1', get_bloginfo( 'version' ) );
+
+		if ( null === $version ) {
+			$version = '0.0';
+		}
+
+		return $version;
+	}
+
+	/**
+	 * Get the PHP version
+	 *
+	 * @return string
+	 */
+	public function get_php_version(): string {
+		$version = preg_replace( '@^(\d\.\d+).*@', '\1', phpversion() );
+
+		if ( null === $version ) {
+			$version = '0.0';
+		}
+
+		return $version;
+	}
+
+	/**
+	 * Get the active theme
+	 *
+	 * @return string
+	 */
+	public function get_current_theme(): string {
+		$theme = wp_get_theme();
+
+		return $theme->get( 'Name' );
+	}
+
+	/**
+	 * Get list of active plugins names
+	 *
+	 * @return string[]
+	 */
+	public function get_active_plugins(): array {
+		$plugins        = [];
+		$active_plugins = get_option( 'active_plugins' );
+		$all_plugins    = get_plugins();
+
+		foreach ( $active_plugins as $plugin_path ) {
+			if ( ! isset( $all_plugins[ $plugin_path ] ) ) {
+				continue;
+			}
+
+			$plugins[] = $all_plugins[ $plugin_path ]['Name'];
+		}
+
+		return $plugins;
+	}
 }

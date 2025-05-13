@@ -12,4 +12,4 @@ concurrency:
 
 jobs:
   phpcs:
-    uses: wp-media/workflows/.github/workflows/phpcs.yml@3774fcc819d33a45a5c61e0dcaaf0bd2a6531067
+    uses: wp-media/workflows/.github/workflows/phpcs.yml@main

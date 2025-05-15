@@ -24,8 +24,9 @@ class Tracking {
 	 * Constructor
 	 *
 	 * @param string $mixpanel_token Mixpanel token.
+	 * @param string $user_id User ID.
 	 */
-	public function __construct( string $mixpanel_token ) {
+	public function __construct( string $mixpanel_token, string $user_id ) {
 		$this->mixpanel = Mixpanel::getInstance(
 			$mixpanel_token,
 			[
@@ -33,7 +34,7 @@ class Tracking {
 				'events_endpoint' => '/track/?ip=0',
 			]
 		);
-		$this->user_id  = hash( 'sha3-224', home_url() );
+		$this->user_id  = hash( 'sha3-224', $user_id );
 
 		$this->mixpanel->identify( $this->user_id );
 	}

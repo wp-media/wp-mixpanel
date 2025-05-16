@@ -2,18 +2,18 @@
 
 return [
 	'testShouldDoNothingWhenUserDoesNotHaveCapability' => [
-		'user_role' => 'subscriber',
+		'user_role'    => 'subscriber',
 		'option_value' => true,
-		'expected' => true,
+		'expected'     => true,
 	],
-	'testShouldDoNothingWhenOptinAlreadyDisabled' => [
-		'user_role' => 'administrator',
+	'testShouldDoNothingWhenOptinAlreadyDisabled'      => [
+		'user_role'    => 'administrator',
 		'option_value' => false,
-		'expected' => false,
+		'expected'     => false,
 	],
-	'testShouldDisableOptin' => [
-		'user_role' => 'administrator',
+	'testShouldDisableOptin'                           => [
+		'user_role'    => 'administrator',
 		'option_value' => true,
-		'expected' => false,
+		'expected'     => false,
 	],
 ];

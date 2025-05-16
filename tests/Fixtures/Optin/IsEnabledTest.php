@@ -2,23 +2,23 @@
 
 return [
 	'testShouldReturnFalseWhenUserDoesNotHaveCapability' => [
-		'user_role' => 'subscriber',
+		'user_role'    => 'subscriber',
 		'option_value' => true,
-		'expected' => false,
+		'expected'     => false,
 	],
-	'testShouldReturnFalseWhenOptionIsNotSet' => [
-		'user_role' => 'administrator',
+	'testShouldReturnFalseWhenOptionIsNotSet'            => [
+		'user_role'    => 'administrator',
 		'option_value' => false,
-		'expected' => false,
+		'expected'     => false,
 	],
 	'testShouldReturnTrueWhenUserHasCapabilityAndOptionIsSet' => [
-		'user_role' => 'administrator',
+		'user_role'    => 'administrator',
 		'option_value' => true,
-		'expected' => true,
+		'expected'     => true,
 	],
 	'testShouldReturnFalseWhenUserHasCapabilityAndOptionIsNotSet' => [
-		'user_role' => 'administrator',
+		'user_role'    => 'administrator',
 		'option_value' => false,
-		'expected' => false,
+		'expected'     => false,
 	],
 ];

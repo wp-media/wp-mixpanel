@@ -39,7 +39,7 @@ class Optin {
 			return false;
 		}
 
-		$optin = get_option( $this->plugin_slug . '_mixpanel_optin' );
+		$optin = get_option( $this->plugin_slug . '_mixpanel_optin', false );
 
 		if ( ! $optin ) {
 			return false;

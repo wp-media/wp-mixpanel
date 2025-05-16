@@ -39,6 +39,11 @@
             "WPMedia\\Mixpanel\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "WPMedia\\Mixpanel\\Tests\\": "tests/"
+        }
+    },
     "scripts": {
         "phpcs": "vendor/bin/phpcs",
         "phpcs:ci": "vendor/bin/phpcs --report-full --report-checkstyle=./phpcs-report.xml",

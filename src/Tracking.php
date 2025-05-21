@@ -113,7 +113,7 @@ class Tracking {
 	 */
 	public function get_active_plugins(): array {
 		$plugins        = [];
-		$active_plugins = get_option( 'active_plugins' );
+		$active_plugins = (array) get_option( 'active_plugins', [] );
 		$all_plugins    = get_plugins();
 
 		foreach ( $active_plugins as $plugin_path ) {

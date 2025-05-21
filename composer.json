@@ -48,7 +48,7 @@
         "phpcs": "vendor/bin/phpcs",
         "phpcs:ci": "vendor/bin/phpcs --report-full --report-checkstyle=./phpcs-report.xml",
         "phpcs:fix": "vendor/bin/phpcbf",
-        "phpstan": "vendor/bin/phpstan analyze",
+        "phpstan": "vendor/bin/phpstan analyze --memory-limit=2G",
         "test-unit": "\"vendor/bin/phpunit\" --testsuite unit --colors=always --configuration tests/Unit/phpunit.xml.dist",
         "test-integration": "\"vendor/bin/phpunit\" --testsuite integration --colors=always --configuration tests/Integration/phpunit.xml.dist"
     }

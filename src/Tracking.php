@@ -14,19 +14,11 @@ class Tracking {
 	private $mixpanel;
 
 	/**
-	 * User ID for Mixpanel
-	 *
-	 * @var string
-	 */
-	private $user_id;
-
-	/**
 	 * Constructor
 	 *
 	 * @param string $mixpanel_token Mixpanel token.
-	 * @param string $user_id User ID.
 	 */
-	public function __construct( string $mixpanel_token, string $user_id ) {
+	public function __construct( string $mixpanel_token ) {
 		$this->mixpanel = Mixpanel::getInstance(
 			$mixpanel_token,
 			[
@@ -34,9 +26,6 @@ class Tracking {
 				'events_endpoint' => '/track/?ip=0',
 			]
 		);
-		$this->user_id  = hash( 'sha3-224', $user_id );
-
-		$this->mixpanel->identify( $this->user_id );
 	}
 
 	/**
@@ -50,14 +39,26 @@ class Tracking {
 	}
 
 	/**
+	 * Identify a user in Mixpanel
+	 *
+	 * @param string $user_id User ID.
+	 *
+	 * @return void
+	 */
+	public function identify( string $user_id ): void {
+		$this->mixpanel->identify( hash( 'sha3-224', $user_id ) );
+	}
+
+	/**
 	 * Set a user property in Mixpanel
 	 *
+	 * @param string $user_id User ID.
 	 * @param string $property Property name.
 	 * @param mixed  $value Property value.
 	 */
-	public function set_user_property( string $property, $value ): void {
+	public function set_user_property( string $user_id, string $property, $value ): void {
 		$this->mixpanel->people->set(
-			$this->user_id,
+			$user_id,
 			[
 				$property => $value,
 			],

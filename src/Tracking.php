@@ -67,6 +67,17 @@ class Tracking {
 	}
 
 	/**
+	 * Hash a value using SHA3-224
+	 *
+	 * @param string $value Value to hash.
+	 *
+	 * @return string
+	 */
+	public function hash( string $value ): string {
+		return hash( 'sha3-224', $value );
+	}
+
+	/**
 	 * Get the WordPress version
 	 *
 	 * @return string

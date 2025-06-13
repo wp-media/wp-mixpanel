@@ -32,7 +32,7 @@ class TrackingPlugin extends Tracking {
 	public function track( string $event, array $properties ): void {
 		$host     = wp_parse_url( get_home_url(), PHP_URL_HOST );
 		$defaults = [
-			'domain'      => $host,
+			'domain'      => $this->hash( $host ),
 			'wp_version'  => $this->get_wp_version(),
 			'php_version' => $this->get_php_version(),
 			'plugin'      => $this->plugin,

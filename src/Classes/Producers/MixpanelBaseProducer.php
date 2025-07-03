@@ -27,7 +27,7 @@ abstract class WPMedia_Producers_MixpanelBaseProducer extends WPMedia_Base_Mixpa
 
 
     /**
-     * @var ConsumerStrategies_AbstractConsumer the consumer to use when flushing messages
+     * @var WPMedia_ConsumerStrategies_AbstractConsumer the consumer to use when flushing messages
      */
     private $_consumer = null;
 
@@ -166,7 +166,7 @@ abstract class WPMedia_Producers_MixpanelBaseProducer extends WPMedia_Base_Mixpa
 
     /**
      * Given a strategy type, return a new PersistenceStrategy object
-     * @return ConsumerStrategies_AbstractConsumer
+     * @return WPMedia_ConsumerStrategies_AbstractConsumer
      */
     protected function _getConsumer() {
         $key = $this->_options['consumer'];

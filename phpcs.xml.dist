@@ -12,6 +12,7 @@
 	<file>src/</file>
     <file>tests/</file>
 
+	<exclude-pattern>src/Classes</exclude-pattern>
 	<!-- ** HOW TO SCAN ** -->
 	<arg value="sp"/><!-- Show sniff and progress -->
 	<arg name="colors"/><!-- Show results with colors -->

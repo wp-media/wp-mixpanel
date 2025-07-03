@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace WPMedia\Mixpanel;
 
-use Mixpanel;
+use WPMedia_Mixpanel;
 
 class Tracking {
 	/**
@@ -19,7 +19,7 @@ class Tracking {
 	 * @param string $mixpanel_token Mixpanel token.
 	 */
 	public function __construct( string $mixpanel_token ) {
-		$this->mixpanel = Mixpanel::getInstance(
+		$this->mixpanel = WPMedia_Mixpanel::getInstance(
 			$mixpanel_token,
 			[
 				'host'            => 'api-eu.mixpanel.com',

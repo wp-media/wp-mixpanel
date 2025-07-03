@@ -36,9 +36,9 @@ abstract class WPMedia_Producers_MixpanelBaseProducer extends WPMedia_Base_Mixpa
      * @var array The list of available consumers
      */
     private $_consumers = array(
-        "file"      =>  "ConsumerStrategies_FileConsumer",
-        "curl"      =>  "ConsumerStrategies_CurlConsumer",
-        "socket"    =>  "ConsumerStrategies_SocketConsumer"
+        "file"      =>  "WPMedia_ConsumerStrategies_FileConsumer",
+        "curl"      =>  "WPMedia_ConsumerStrategies_CurlConsumer",
+        "socket"    =>  "WPMedia_ConsumerStrategies_SocketConsumer"
     );
 
 

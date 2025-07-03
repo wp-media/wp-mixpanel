@@ -16,8 +16,8 @@ class Tracking {
 	/**
 	 * Constructor
 	 *
-	 * @param string $mixpanel_token Mixpanel token.
-	 * @param array  $options Options for Mixpanel instance.
+	 * @param string  $mixpanel_token Mixpanel token.
+	 * @param mixed[] $options Options for Mixpanel instance.
 	 */
 	public function __construct( string $mixpanel_token, array $options = [] ) {
 		$mixpanel_options = array_merge(

@@ -17,14 +17,20 @@ class Tracking {
 	 * Constructor
 	 *
 	 * @param string $mixpanel_token Mixpanel token.
+	 * @param array  $options Options for Mixpanel instance.
 	 */
-	public function __construct( string $mixpanel_token ) {
-		$this->mixpanel = WPMedia_Mixpanel::getInstance(
-			$mixpanel_token,
+	public function __construct( string $mixpanel_token, array $options = [] ) {
+		$mixpanel_options = array_merge(
 			[
 				'host'            => 'api-eu.mixpanel.com',
 				'events_endpoint' => '/track/?ip=0',
-			]
+			],
+			$options
+		);
+
+		$this->mixpanel = WPMedia_Mixpanel::getInstance(
+			$mixpanel_token,
+			$mixpanel_options
 		);
 	}
 

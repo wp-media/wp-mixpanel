@@ -18,7 +18,11 @@ class TrackingPlugin extends Tracking {
 	 * @param string $plugin         Plugin name.
 	 */
 	public function __construct( string $mixpanel_token, string $plugin ) {
-		parent::__construct( $mixpanel_token );
+		$options = [
+			'consumer' => 'wp',
+		];
+
+		parent::__construct( $mixpanel_token, $options );
 
 		$this->plugin = $plugin;
 	}

@@ -9,7 +9,7 @@ class Tracking {
 	/**
 	 * Mixpanel instance
 	 *
-	 * @var Mixpanel
+	 * @var WPMedia_Mixpanel
 	 */
 	private $mixpanel;
 

@@ -70,5 +70,7 @@ class WPMedia_ConsumerStrategies_WPConsumer extends WPMedia_ConsumerStrategies_A
             $this->_handleError( $response->get_error_code(), $response->get_error_message() );
             return false;
         }
+
+        return true;
     }
 }

@@ -19,7 +19,10 @@ class TrackingPlugin extends Tracking {
 	 */
 	public function __construct( string $mixpanel_token, string $plugin ) {
 		$options = [
-			'consumer' => 'wp',
+			'consumer'  => 'wp',
+			'consumers' => [
+				'wp' => 'WPMedia\\Mixpanel\\WPConsumer',
+			],
 		];
 
 		parent::__construct( $mixpanel_token, $options );

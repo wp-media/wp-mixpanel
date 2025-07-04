@@ -46,7 +46,7 @@ class Tracking {
 	 * @return void
 	 */
 	public function identify( string $user_id ): void {
-		$this->mixpanel->identify( hash( 'sha3-224', $user_id ) );
+		$this->mixpanel->identify( $this->hash( $user_id ) );
 	}
 
 	/**
@@ -67,14 +67,14 @@ class Tracking {
 	}
 
 	/**
-	 * Hash a value using SHA3-224
+	 * Hash a value using sha224
 	 *
 	 * @param string $value Value to hash.
 	 *
 	 * @return string
 	 */
 	public function hash( string $value ): string {
-		return hash( 'sha3-224', $value );
+		return hash( 'sha224', $value );
 	}
 
 	/**

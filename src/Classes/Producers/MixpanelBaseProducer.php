@@ -1,9 +1,4 @@
 <?php
-require_once(dirname(__FILE__) . "/../Base/MixpanelBase.php");
-require_once(dirname(__FILE__) . "/../ConsumerStrategies/FileConsumer.php");
-require_once(dirname(__FILE__) . "/../ConsumerStrategies/CurlConsumer.php");
-require_once(dirname(__FILE__) . "/../ConsumerStrategies/SocketConsumer.php");
-require_once(dirname(__FILE__) . "/../ConsumerStrategies/WPConsumer.php");
 
 if (!function_exists('json_encode')) {
     throw new Exception('The JSON PHP extension is required.');
@@ -40,7 +35,6 @@ abstract class WPMedia_Producers_MixpanelBaseProducer extends WPMedia_Base_Mixpa
         "file"      =>  "WPMedia_ConsumerStrategies_FileConsumer",
         "curl"      =>  "WPMedia_ConsumerStrategies_CurlConsumer",
         "socket"    =>  "WPMedia_ConsumerStrategies_SocketConsumer",
-        "wp"        =>  "WPMedia_ConsumerStrategies_WPConsumer",
     );
 
 

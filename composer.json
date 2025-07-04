@@ -37,7 +37,9 @@
         "psr-4": {
             "WPMedia\\Mixpanel\\": "src/"
         },
-        "files": ["src/Classes/Mixpanel.php"]
+        "classmap": [
+            "src/Classes/"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

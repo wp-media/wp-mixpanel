@@ -1,10 +1,5 @@
 <?php
 
-require_once(dirname(__FILE__) . "/Base/MixpanelBase.php");
-require_once(dirname(__FILE__) . "/Producers/MixpanelPeople.php");
-require_once(dirname(__FILE__) . "/Producers/MixpanelEvents.php");
-require_once(dirname(__FILE__) . "/Producers/MixpanelGroups.php");
-
 /**
  * This is the main class for the Mixpanel PHP Library which provides all of the methods you need to track events,
   * create/update profiles and group profiles.

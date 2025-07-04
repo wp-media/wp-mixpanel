@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__FILE__) . "/AbstractConsumer.php");
+
 /**
  * Consumes messages and writes them to a file
  */

@@ -1,5 +1,4 @@
 <?php
-require_once(dirname(__FILE__) . "/MixpanelBaseProducer.php");
 
 /**
  * Provides an API to create/update group profiles on Mixpanel

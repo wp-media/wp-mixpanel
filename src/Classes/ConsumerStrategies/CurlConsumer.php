@@ -1,5 +1,4 @@
 <?php
-require_once(dirname(__FILE__) . "/AbstractConsumer.php");
 
 /**
  * Consumes messages and sends them to a host/endpoint using cURL

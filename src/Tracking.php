@@ -3,28 +3,34 @@ declare(strict_types=1);
 
 namespace WPMedia\Mixpanel;
 
-use Mixpanel;
+use WPMedia_Mixpanel;
 
 class Tracking {
 	/**
 	 * Mixpanel instance
 	 *
-	 * @var Mixpanel
+	 * @var WPMedia_Mixpanel
 	 */
 	private $mixpanel;
 
 	/**
 	 * Constructor
 	 *
-	 * @param string $mixpanel_token Mixpanel token.
+	 * @param string  $mixpanel_token Mixpanel token.
+	 * @param mixed[] $options Options for Mixpanel instance.
 	 */
-	public function __construct( string $mixpanel_token ) {
-		$this->mixpanel = Mixpanel::getInstance(
-			$mixpanel_token,
+	public function __construct( string $mixpanel_token, array $options = [] ) {
+		$mixpanel_options = array_merge(
 			[
 				'host'            => 'api-eu.mixpanel.com',
 				'events_endpoint' => '/track/?ip=0',
-			]
+			],
+			$options
+		);
+
+		$this->mixpanel = WPMedia_Mixpanel::getInstance(
+			$mixpanel_token,
+			$mixpanel_options
 		);
 	}
 

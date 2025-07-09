@@ -104,6 +104,7 @@
  */
 class WPMedia_Mixpanel extends WPMedia_Base_MixpanelBase {
 
+
     /**
      * An instance of the MixpanelPeople class (used to create/update profiles)
      * @var WPMedia_Producers_MixpanelPeople

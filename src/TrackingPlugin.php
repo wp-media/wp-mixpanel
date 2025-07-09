@@ -12,9 +12,9 @@ class TrackingPlugin extends Tracking {
 	private $plugin;
 
 	/**
-	 * Get the Mixpanel token
+	 * Mixpanel token
 	 *
-	 * @return string
+	 * @var string
 	 */
 	private $mixpanel_token;
 
@@ -34,7 +34,7 @@ class TrackingPlugin extends Tracking {
 
 		parent::__construct( $mixpanel_token, $options );
 
-		$this->plugin = $plugin;
+		$this->plugin         = $plugin;
 		$this->mixpanel_token = $mixpanel_token;
 	}
 

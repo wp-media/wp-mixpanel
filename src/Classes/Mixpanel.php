@@ -104,6 +104,11 @@
  */
 class WPMedia_Mixpanel extends WPMedia_Base_MixpanelBase {
 
+    /**
+     * The Mixpanel token
+     * @var string
+     */
+    private $_token;
 
     /**
      * An instance of the MixpanelPeople class (used to create/update profiles)
@@ -140,6 +145,7 @@ class WPMedia_Mixpanel extends WPMedia_Base_MixpanelBase {
      */
     public function __construct($token, $options = array()) {
         parent::__construct($options);
+        $this->_token = $token;
         $this->people = new WPMedia_Producers_MixpanelPeople($token, $options);
         $this->_events = new WPMedia_Producers_MixpanelEvents($token, $options);
         $this->group = new WPMedia_Producers_MixpanelGroups($token, $options);
@@ -304,5 +310,13 @@ class WPMedia_Mixpanel extends WPMedia_Base_MixpanelBase {
      */
     public function createAlias($distinct_id, $alias) {
         $this->_events->createAlias($distinct_id, $alias);
+    }
+
+    /**
+     * Get the Mixpanel token
+     * @return string
+     */
+    public function get_token() {
+        return $this->_token;
     }
 }

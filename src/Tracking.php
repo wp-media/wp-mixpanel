@@ -144,4 +144,13 @@ class Tracking {
 
 		return $plugins;
 	}
+
+	/**
+	 * Get the Mixpanel instance
+	 *
+	 * @return WPMedia_Mixpanel
+	 */
+	protected function get_mixpanel_instance(): WPMedia_Mixpanel {
+		return $this->mixpanel;
+	}
 }

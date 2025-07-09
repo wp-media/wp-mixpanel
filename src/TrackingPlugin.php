@@ -54,4 +54,13 @@ class TrackingPlugin extends Tracking {
 
 		parent::track( $event, $properties );
 	}
+
+	/**
+	 * Get the Mixpanel token
+	 *
+	 * @return string
+	 */
+	public function get_token(): string {
+		return $this->get_mixpanel_instance()->get_token();
+	}
 }

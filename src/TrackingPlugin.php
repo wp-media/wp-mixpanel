@@ -12,15 +12,30 @@ class TrackingPlugin extends Tracking {
 	private $plugin;
 
 	/**
+	 * Mixpanel token
+	 *
+	 * @var string
+	 */
+	private $mixpanel_token;
+
+	/**
 	 * Constructor
 	 *
 	 * @param string $mixpanel_token Mixpanel token.
 	 * @param string $plugin         Plugin name.
 	 */
 	public function __construct( string $mixpanel_token, string $plugin ) {
-		parent::__construct( $mixpanel_token );
+		$options = [
+			'consumer'  => 'wp',
+			'consumers' => [
+				'wp' => 'WPMedia\\Mixpanel\\WPConsumer',
+			],
+		];
 
-		$this->plugin = $plugin;
+		parent::__construct( $mixpanel_token, $options );
+
+		$this->plugin         = $plugin;
+		$this->mixpanel_token = $mixpanel_token;
 	}
 
 	/**
@@ -46,6 +61,15 @@ class TrackingPlugin extends Tracking {
 		$properties = array_merge( $properties, $defaults );
 
 		parent::track( $event, $properties );
+	}
+
+	/**
+	 * Get the Mixpanel token
+	 *
+	 * @return string
+	 */
+	public function get_token(): string {
+		return $this->mixpanel_token;
 	}
 
 	/**

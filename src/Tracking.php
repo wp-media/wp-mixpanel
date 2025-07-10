@@ -3,28 +3,34 @@ declare(strict_types=1);
 
 namespace WPMedia\Mixpanel;
 
-use Mixpanel;
+use WPMedia_Mixpanel;
 
 class Tracking {
 	/**
 	 * Mixpanel instance
 	 *
-	 * @var Mixpanel
+	 * @var WPMedia_Mixpanel
 	 */
 	private $mixpanel;
 
 	/**
 	 * Constructor
 	 *
-	 * @param string $mixpanel_token Mixpanel token.
+	 * @param string  $mixpanel_token Mixpanel token.
+	 * @param mixed[] $options Options for Mixpanel instance.
 	 */
-	public function __construct( string $mixpanel_token ) {
-		$this->mixpanel = Mixpanel::getInstance(
-			$mixpanel_token,
+	public function __construct( string $mixpanel_token, array $options = [] ) {
+		$mixpanel_options = array_merge(
 			[
 				'host'            => 'api-eu.mixpanel.com',
 				'events_endpoint' => '/track/?ip=0',
-			]
+			],
+			$options
+		);
+
+		$this->mixpanel = WPMedia_Mixpanel::getInstance(
+			$mixpanel_token,
+			$mixpanel_options
 		);
 	}
 
@@ -46,7 +52,7 @@ class Tracking {
 	 * @return void
 	 */
 	public function identify( string $user_id ): void {
-		$this->mixpanel->identify( hash( 'sha3-224', $user_id ) );
+		$this->mixpanel->identify( $this->hash( $user_id ) );
 	}
 
 	/**
@@ -67,14 +73,14 @@ class Tracking {
 	}
 
 	/**
-	 * Hash a value using SHA3-224
+	 * Hash a value using sha224
 	 *
 	 * @param string $value Value to hash.
 	 *
 	 * @return string
 	 */
 	public function hash( string $value ): string {
-		return hash( 'sha3-224', $value );
+		return hash( 'sha224', $value );
 	}
 
 	/**

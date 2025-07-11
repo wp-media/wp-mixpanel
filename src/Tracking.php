@@ -17,9 +17,11 @@ class Tracking {
 	 * Constructor
 	 *
 	 * @param string  $mixpanel_token Mixpanel token.
+	 * @param string  $brand Brand name.
+	 * @param string  $product Product name.
 	 * @param mixed[] $options Options for Mixpanel instance.
 	 */
-	public function __construct( string $mixpanel_token, array $options = [] ) {
+	public function __construct( string $mixpanel_token, string $brand, string $product, array $options = [] ) {
 		$mixpanel_options = array_merge(
 			[
 				'host'            => 'api-eu.mixpanel.com',
@@ -31,6 +33,13 @@ class Tracking {
 		$this->mixpanel = WPMedia_Mixpanel::getInstance(
 			$mixpanel_token,
 			$mixpanel_options
+		);
+
+		$this->mixpanel->registerAllOnce(
+			[
+				'brand'   => $brand,
+				'product' => $product,
+			]
 		);
 	}
 

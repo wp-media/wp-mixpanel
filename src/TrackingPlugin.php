@@ -5,13 +5,6 @@ namespace WPMedia\Mixpanel;
 
 class TrackingPlugin extends Tracking {
 	/**
-	 * Plugin name & version
-	 *
-	 * @var string
-	 */
-	private $plugin;
-
-	/**
 	 * Mixpanel token
 	 *
 	 * @var string
@@ -19,12 +12,27 @@ class TrackingPlugin extends Tracking {
 	private $mixpanel_token;
 
 	/**
+	 * Plugin name & version
+	 *
+	 * @var string
+	 */
+	private $plugin;
+
+	/**
+	 * Plugin slug
+	 *
+	 * @var string
+	 */
+	private $plugin_slug;
+
+	/**
 	 * Constructor
 	 *
 	 * @param string $mixpanel_token Mixpanel token.
 	 * @param string $plugin         Plugin name.
+	 * @param string $plugin_slug    Plugin slug.
 	 */
-	public function __construct( string $mixpanel_token, string $plugin ) {
+	public function __construct( string $mixpanel_token, string $plugin, string $plugin_slug ) {
 		$options = [
 			'consumer'  => 'wp',
 			'consumers' => [
@@ -36,6 +44,16 @@ class TrackingPlugin extends Tracking {
 
 		$this->plugin         = $plugin;
 		$this->mixpanel_token = $mixpanel_token;
+		$this->plugin_slug    = $plugin_slug;
+	}
+
+	/**
+	 * Register hooks for tracking global events
+	 *
+	 * @return void
+	 */
+	public function register_hooks(): void {
+		add_action( $this->plugin_slug . '_mixpanel_optin_changed', [ $this, 'track_optin' ] );
 	}
 
 	/**

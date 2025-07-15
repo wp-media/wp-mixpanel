@@ -48,7 +48,7 @@ class TrackingPlugin extends Tracking {
 	 * @param string $brand          Brand name.
 	 * @param string $product        Product name.
 	 */
-	public function __construct( string $mixpanel_token, string $plugin, string $plugin_slug, string $brand, string $product ) {
+	public function __construct( string $mixpanel_token, string $plugin, string $plugin_slug = '', string $brand = '', string $product = '' ) {
 		$options = [
 			'consumer'  => 'wp',
 			'consumers' => [

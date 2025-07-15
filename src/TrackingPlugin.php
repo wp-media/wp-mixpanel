@@ -113,15 +113,15 @@ class TrackingPlugin extends Tracking {
 	/**
 	 * Track opt-in status change in Mixpanel
 	 *
-	 * @param bool $value Opt-in status.
+	 * @param bool $status Opt-in status.
 	 *
 	 * @return void
 	 */
-	public function track_optin( $value ): void {
+	public function track_optin( $status ): void {
 		$this->track(
 			'WordPress Plugin Data Consent Changed',
 			[
-				'opt_in_status' => $value,
+				'opt_in_status' => $status,
 			]
 		);
 	}

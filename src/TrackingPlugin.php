@@ -26,6 +26,20 @@ class TrackingPlugin extends Tracking {
 	private $plugin_slug;
 
 	/**
+	 * Brand name
+	 *
+	 * @var string
+	 */
+	private $brand;
+
+	/**
+	 * Product name
+	 *
+	 * @var string
+	 */
+	private $product;
+
+	/**
 	 * Constructor
 	 *
 	 * @param string $mixpanel_token Mixpanel token.
@@ -47,6 +61,8 @@ class TrackingPlugin extends Tracking {
 		$this->plugin         = $plugin;
 		$this->mixpanel_token = $mixpanel_token;
 		$this->plugin_slug    = $plugin_slug;
+		$this->brand          = $brand;
+		$this->product        = $product;
 	}
 
 	/**
@@ -76,6 +92,8 @@ class TrackingPlugin extends Tracking {
 			'wp_version'  => $this->get_wp_version(),
 			'php_version' => $this->get_php_version(),
 			'plugin'      => $this->plugin,
+			'brand'       => $this->brand,
+			'product'     => $this->product,
 		];
 
 		$properties = array_merge( $properties, $defaults );

@@ -29,7 +29,7 @@ class Tracking {
 	public function __construct( string $mixpanel_token, array $options = [] ) {
 		$mixpanel_options = array_merge(
 			[
-				'host'            => 'api-eu.mixpanel.com',
+				'host'            => 'mixpanel-tracking-proxy-prod.public-default.live2-k8s-cph3.ingress.k8s.g1i.one',
 				'events_endpoint' => '/track/?ip=0',
 			],
 			$options

@@ -19,13 +19,6 @@ class TrackingPlugin extends Tracking {
 	private $plugin;
 
 	/**
-	 * Plugin slug
-	 *
-	 * @var string
-	 */
-	private $plugin_slug;
-
-	/**
 	 * Brand name
 	 *
 	 * @var string
@@ -44,11 +37,10 @@ class TrackingPlugin extends Tracking {
 	 *
 	 * @param string $mixpanel_token Mixpanel token.
 	 * @param string $plugin         Plugin name.
-	 * @param string $plugin_slug    Plugin slug.
 	 * @param string $brand          Brand name.
 	 * @param string $product        Product name.
 	 */
-	public function __construct( string $mixpanel_token, string $plugin, string $plugin_slug = '', string $brand = '', string $product = '' ) {
+	public function __construct( string $mixpanel_token, string $plugin, string $brand = '', string $product = '' ) {
 		$options = [
 			'consumer'  => 'wp',
 			'consumers' => [
@@ -60,18 +52,8 @@ class TrackingPlugin extends Tracking {
 
 		$this->plugin         = $plugin;
 		$this->mixpanel_token = $mixpanel_token;
-		$this->plugin_slug    = $plugin_slug;
 		$this->brand          = $brand;
 		$this->product        = $product;
-	}
-
-	/**
-	 * Register hooks for tracking global events
-	 *
-	 * @return void
-	 */
-	public function register_hooks(): void {
-		add_action( $this->plugin_slug . '_mixpanel_optin_changed', [ $this, 'track_optin' ] );
 	}
 
 	/**

@@ -5,13 +5,6 @@ namespace WPMedia\Mixpanel;
 
 class TrackingPlugin extends Tracking {
 	/**
-	 * Plugin name & version
-	 *
-	 * @var string
-	 */
-	private $plugin;
-
-	/**
 	 * Mixpanel token
 	 *
 	 * @var string
@@ -19,12 +12,35 @@ class TrackingPlugin extends Tracking {
 	private $mixpanel_token;
 
 	/**
+	 * Plugin name & version
+	 *
+	 * @var string
+	 */
+	private $plugin;
+
+	/**
+	 * Brand name
+	 *
+	 * @var string
+	 */
+	private $brand;
+
+	/**
+	 * Product name
+	 *
+	 * @var string
+	 */
+	private $product;
+
+	/**
 	 * Constructor
 	 *
 	 * @param string $mixpanel_token Mixpanel token.
 	 * @param string $plugin         Plugin name.
+	 * @param string $brand          Brand name.
+	 * @param string $product        Product name.
 	 */
-	public function __construct( string $mixpanel_token, string $plugin ) {
+	public function __construct( string $mixpanel_token, string $plugin, string $brand = '', string $product = '' ) {
 		$options = [
 			'consumer'  => 'wp',
 			'consumers' => [
@@ -36,6 +52,8 @@ class TrackingPlugin extends Tracking {
 
 		$this->plugin         = $plugin;
 		$this->mixpanel_token = $mixpanel_token;
+		$this->brand          = $brand;
+		$this->product        = $product;
 	}
 
 	/**
@@ -56,6 +74,8 @@ class TrackingPlugin extends Tracking {
 			'wp_version'  => $this->get_wp_version(),
 			'php_version' => $this->get_php_version(),
 			'plugin'      => $this->plugin,
+			'brand'       => $this->brand,
+			'product'     => $this->product,
 		];
 
 		$properties = array_merge( $properties, $defaults );
@@ -70,5 +90,21 @@ class TrackingPlugin extends Tracking {
 	 */
 	public function get_token(): string {
 		return $this->mixpanel_token;
+	}
+
+	/**
+	 * Track opt-in status change in Mixpanel
+	 *
+	 * @param bool $status Opt-in status.
+	 *
+	 * @return void
+	 */
+	public function track_optin( $status ): void {
+		$this->track(
+			'WordPress Plugin Data Consent Changed',
+			[
+				'opt_in_status' => $status,
+			]
+		);
 	}
 }

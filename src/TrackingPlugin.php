@@ -5,13 +5,6 @@ namespace WPMedia\Mixpanel;
 
 class TrackingPlugin extends Tracking {
 	/**
-	 * Mixpanel token
-	 *
-	 * @var string
-	 */
-	private $mixpanel_token;
-
-	/**
 	 * Plugin name & version
 	 *
 	 * @var string
@@ -50,10 +43,9 @@ class TrackingPlugin extends Tracking {
 
 		parent::__construct( $mixpanel_token, $options );
 
-		$this->plugin         = $plugin;
-		$this->mixpanel_token = $mixpanel_token;
-		$this->brand          = $brand;
-		$this->product        = $product;
+		$this->plugin  = $plugin;
+		$this->brand   = $brand;
+		$this->product = $product;
 	}
 
 	/**
@@ -81,15 +73,6 @@ class TrackingPlugin extends Tracking {
 		$properties = array_merge( $properties, $defaults );
 
 		parent::track( $event, $properties );
-	}
-
-	/**
-	 * Get the Mixpanel token
-	 *
-	 * @return string
-	 */
-	public function get_token(): string {
-		return $this->mixpanel_token;
 	}
 
 	/**

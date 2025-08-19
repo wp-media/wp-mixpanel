@@ -43,9 +43,9 @@ class TrackingPlugin extends Tracking {
 
 		parent::__construct( $mixpanel_token, $options );
 
-		$this->plugin  = $plugin;
-		$this->brand   = $brand;
-		$this->app     = $app;
+		$this->plugin = $plugin;
+		$this->brand  = $brand;
+		$this->app    = $app;
 	}
 
 	/**

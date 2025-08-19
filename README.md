@@ -87,3 +87,7 @@ The `track()` method of the `TrackingPlugin` class will automatically associated
 - `plugin`: Plugin name and version (set in constructor)
 - `brand`: Brand name (set in constructor)
 - `product`: Product name (set in constructor)
+
+# Read more about MixPanel at group.one
+
+More information about how MixPanel is used at group.one is available in [our internal documentation](https://group-one.atlassian.net/wiki/spaces/PA1/folder/33940931155?atlOrigin=eyJpIjoiZGNhYmI5MDMyZmZiNGY4MmIzOWZkNDNmZmY3ZjcyNDAiLCJwIjoiYyJ9). 

@@ -86,7 +86,7 @@ The `track()` method of the `TrackingPlugin` class will automatically associated
 - `php_version`: current PHP version
 - `plugin`: Plugin name and version (set in constructor)
 - `brand`: Brand name (set in constructor)
-- `application`: Product name (set in constructor)
+- `application`: Application name (set in constructor)
 
 # Read more about MixPanel at group.one
 

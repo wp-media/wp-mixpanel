@@ -39,11 +39,11 @@ The `$options` parameter is an optional array which can be used to configure fur
 ### Initialize the `TrackingPlugin` in a WordPress plugin
 
 ```php
-new WPMedia\Mixpanel\TrackingPlugin( $mixpanel_token, $plugin, $brand = '', $product = '' );
+new WPMedia\Mixpanel\TrackingPlugin( $mixpanel_token, $plugin, $brand = '', $app = '' );
 ```
 
 - The `$plugin` is the plugin name + the version
-- The `$brand` and `$product` are optional, but should be specified based on the analytics requirements of the plugin you implement the library in.
+- The `$brand` and `$app` are optional, but should be specified based on the analytics requirements of the plugin you implement the library in.
 
 ### Initialize the Optin class
 
@@ -86,7 +86,7 @@ The `track()` method of the `TrackingPlugin` class will automatically associated
 - `php_version`: current PHP version
 - `plugin`: Plugin name and version (set in constructor)
 - `brand`: Brand name (set in constructor)
-- `product`: Product name (set in constructor)
+- `application`: Application name (set in constructor)
 
 # Read more about MixPanel at group.one
 

@@ -72,21 +72,34 @@ The `track()` method takes 2 required arguments:
 ### Track an event with optin check in a plugin
 
 ```php
-if ( ! $optin->is_enabled() ) {
+if ( ! $optin->can_track() ) {
     return;
 }
 
 $tracking_plugin->identify( $user_id );
-$tracking_plugin->track( 'Event Name', $properties );
+$tracking_plugin->track( 'Event Name', $properties, $event_capability = '' );
 ```
 
-The `track()` method of the `TrackingPlugin` class will automatically associated the following properties to the event:
+The `track()` method of the `TrackingPlugin` class is a bit different than its parent:
+
+First, it takes an additional optional parameter `$event_capability`. By default, the capability required for all events is `manage_options`. This can be changed in two different ways:
+- Using the filter `wp_mixpanel_event_capability` to modify the value for all events
+- Passing the capability as the parameter `$event_capability`, to set it on a specific event
+
+Second, the method will automatically associate the following properties to the event:
 - `domain`: hashed value of the current hostname
 - `wp_version`: current WP version
 - `php_version`: current PHP version
 - `plugin`: Plugin name and version (set in constructor)
 - `brand`: Brand name (set in constructor)
 - `application`: Application name (set in constructor)
+
+### `wp_mixpanel_event_capability` Filter usage
+
+The filter can takes 3 arguments:
+- `$capability` the capability for all events
+- `$event` the current event name
+- `$app` the current app name
 
 # Read more about MixPanel at group.one
 

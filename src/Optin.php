@@ -54,13 +54,7 @@ class Optin {
 	 * @return bool
 	 */
 	public function can_track(): bool {
-		$optin = get_option( $this->plugin_slug . '_mixpanel_optin', false );
-
-		if ( ! $optin ) {
-			return false;
-		}
-
-		return true;
+		return (bool) get_option( $this->plugin_slug . '_mixpanel_optin', false );
 	}
 
 	/**

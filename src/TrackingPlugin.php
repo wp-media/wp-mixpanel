@@ -54,7 +54,24 @@ class TrackingPlugin extends Tracking {
 	 * @param string  $event      Event name.
 	 * @param mixed[] $properties Event properties.
 	 */
-	public function track( string $event, array $properties ): void {
+	public function track( string $event, array $properties, $event_capability = '' ): void {
+		/**
+		 * Filter the default capability required to track a specific event.
+		 *
+		 * @param string $capability The capability required to track the event.
+		 * @param string $event      The event name.
+		 * @param string $app        The application name.
+		 */
+		$default = apply_filters( 'wp_mixpanel_event_capability', 'manage_options', $event, $this->app );
+
+		if ( empty( $event_capability ) ) {
+			$event_capability = $default;
+		}
+
+		if ( ! current_user_can( $event_capability ) ) {
+			return;
+		}
+
 		$host = wp_parse_url( get_home_url(), PHP_URL_HOST );
 
 		if ( ! $host ) {

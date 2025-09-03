@@ -108,4 +108,23 @@ class TrackingPlugin extends Tracking {
 			]
 		);
 	}
+
+	/**
+	 * Add the Mixpanel script & initialize it
+	 */
+	public function add_script(): void {
+		/**
+		 * Filter the default capability required to track with JS.
+		 *
+		 * @param string $capability The capability required to track the event.
+		 * @param string $app        The application name.
+		 */
+		$capability = apply_filters( 'wp_mixpanel_js_track_capability', 'manage_options', $this->app );
+
+		if ( ! current_user_can( $capability ) ) {
+			return;
+		}
+
+		parent::add_script();	
+	}
 }

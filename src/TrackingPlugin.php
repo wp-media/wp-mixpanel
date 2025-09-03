@@ -125,6 +125,6 @@ class TrackingPlugin extends Tracking {
 			return;
 		}
 
-		parent::add_script();	
+		parent::add_script();
 	}
 }

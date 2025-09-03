@@ -90,4 +90,18 @@ class TrackingPlugin extends Tracking {
 			]
 		);
 	}
+
+	/**
+	 * Track a plugin activation event
+	 *
+	 * @param string $plugin Plugin name.
+	 */
+	public function track_activated_plugin( $plugin ): void {
+		$this->track(
+			'WordPress Plugin Activated',
+			[
+				'activated_plugin' => $plugin,
+			]
+		);
+	}
 }

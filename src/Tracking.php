@@ -178,6 +178,10 @@ class Tracking {
 		$all_plugins    = get_plugins();
 
 		foreach ( $active_plugins as $plugin_path ) {
+			if ( ! is_string( $plugin_path ) ) {
+				continue;
+			}
+
 			if ( ! isset( $all_plugins[ $plugin_path ] ) ) {
 				continue;
 			}

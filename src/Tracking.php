@@ -50,8 +50,8 @@ class Tracking {
 	 * @return bool
 	 */
 	private function is_debug(): bool {
-		$debug = (defined('WP_DEBUG') ? constant('WP_DEBUG') : false)
-			&& (defined('WP_DEBUG_LOG') ? constant('WP_DEBUG_LOG') : false);
+		$debug = ( defined( 'WP_DEBUG' ) ? constant( 'WP_DEBUG' ) : false )
+			&& ( defined( 'WP_DEBUG_LOG' ) ? constant( 'WP_DEBUG_LOG' ) : false );
 
 		/**
 		 * Filters whether Mixpanel debug mode is enabled.
@@ -72,7 +72,7 @@ class Tracking {
 			return;
 		}
 
-		error_log( 'Mixpanel event: ' . $event . ' ' . var_export( $properties, true ) );
+		error_log( 'Mixpanel event: ' . $event . ' ' . var_export( $properties, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log, WordPress.PHP.DevelopmentFunctions.error_log_var_export
 	}
 
 	/**

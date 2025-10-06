@@ -33,6 +33,7 @@ class Tracking {
 			[
 				'host'            => self::HOST,
 				'events_endpoint' => '/track/?ip=0',
+				'debug'           => $this->is_debug(),
 			],
 			$options
 		);
@@ -42,6 +43,22 @@ class Tracking {
 			$this->token,
 			$mixpanel_options
 		);
+	}
+
+	/**
+	 * Check if debug mode is enabled
+	 *
+	 * @return bool
+	 */
+	private function is_debug(): bool {
+		$debug = constant( 'WP_DEBUG' ) && constant( 'WP_DEBUG_LOG' );
+
+		/**
+		 * Filters whether Mixpanel debug mode is enabled.
+		 *
+		 * @param bool $debug Debug mode value.
+		 */
+		return apply_filters( 'wp_media_mixpanel_debug', $debug );
 	}
 
 	/**

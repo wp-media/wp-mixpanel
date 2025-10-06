@@ -33,7 +33,6 @@ class Tracking {
 			[
 				'host'            => self::HOST,
 				'events_endpoint' => '/track/?ip=0',
-				'debug'           => $this->is_debug(),
 			],
 			$options
 		);
@@ -62,12 +61,28 @@ class Tracking {
 	}
 
 	/**
+	 * Log event to error log if debug mode is enabled
+	 *
+	 * @param string  $event Event name.
+	 * @param mixed[] $properties Event properties.
+	 */
+	private function log_event( string $event, array $properties ): void {
+		if ( ! $this->is_debug() ) {
+			return;
+		}
+
+		error_log( 'Mixpanel event: ' . $event . ' ' . var_export( $properties, true ) );
+	}
+
+	/**
 	 * Track an event in Mixpanel
 	 *
 	 * @param string  $event Event name.
 	 * @param mixed[] $properties Event properties.
 	 */
 	public function track( string $event, array $properties ): void {
+		$this->log_event( $event, $properties );
+
 		$this->mixpanel->track( $event, $properties );
 	}
 

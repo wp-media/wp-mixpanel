@@ -50,7 +50,8 @@ class Tracking {
 	 * @return bool
 	 */
 	private function is_debug(): bool {
-		$debug = constant( 'WP_DEBUG' ) && constant( 'WP_DEBUG_LOG' );
+		$debug = (defined('WP_DEBUG') ? constant('WP_DEBUG') : false)
+			&& (defined('WP_DEBUG_LOG') ? constant('WP_DEBUG_LOG') : false);
 
 		/**
 		 * Filters whether Mixpanel debug mode is enabled.

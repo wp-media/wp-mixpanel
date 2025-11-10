@@ -54,8 +54,9 @@ class TrackingPlugin extends Tracking {
 	 * @param string  $event      Event name.
 	 * @param mixed[] $properties Event properties.
 	 * @param string  $event_capability The capability required to track the event.
+	 * @param bool    $bypass_capability Whether to bypass capability check.
 	 */
-	public function track( string $event, array $properties, string $event_capability = '' ): void {
+	public function track( string $event, array $properties, string $event_capability = '', bool $bypass_capability = false ): void {
 		/**
 		 * Filter the default capability required to track a specific event.
 		 *
@@ -69,7 +70,7 @@ class TrackingPlugin extends Tracking {
 			$event_capability = $default;
 		}
 
-		if ( ! current_user_can( $event_capability ) ) {
+		if ( ! $bypass_capability && ! current_user_can( $event_capability ) ) {
 			return;
 		}
 

@@ -101,6 +101,18 @@ class TrackingPlugin extends Tracking {
 
 		$properties = array_merge( $properties, $defaults );
 
+		$this->track_event_with_parent( $event, $properties );
+	}
+
+	/**
+	 * Tracks an event by calling the parent track method with a capitalized event name.
+	 *
+	 * @param string $event      The name of the event to be tracked.
+	 * @param array  $properties The properties associated with the event.
+	 *
+	 * @return void
+	 */
+	protected function track_event_with_parent( string $event, array $properties ): void {
 		parent::track( ucfirst( $event ), $properties );
 	}
 

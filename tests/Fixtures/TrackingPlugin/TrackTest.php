@@ -39,8 +39,19 @@ return [
 	],
 	'testShouldBypassCapabilityCheckWithBypassSetToTrue'   => [
 		'config'   => [
+			'event_capability'  => '',
 			'bypass_capability' => true,
 		],
-		'expected' => [],
+		'expected' => [
+			'properties' => [
+				'key'         => 'value',
+				'domain'      => '',
+				'wp_version'  => '',
+				'php_version' => '',
+				'plugin'      => 'test_plugin',
+				'brand'       => 'test_brand',
+				'application' => 'test_app',
+			],
+		],
 	],
 ];

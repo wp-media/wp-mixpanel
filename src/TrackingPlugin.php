@@ -54,36 +54,39 @@ class TrackingPlugin extends Tracking {
 	 * @param string  $event      Event name.
 	 * @param mixed[] $properties Event properties.
 	 * @param string  $event_capability The capability required to track the event.
-	 * @param bool    $bypass_capability If true, bypasses capability checks. Use only when you have ensured proper authorization elsewhere.
 	 *
-	 * When should this parameter be used:
-	 *   - Only in trusted contexts where user authorization has already been verified.
-	 * Security implications:
-	 *   - Bypassing capability checks may allow unauthorized users to track events.
-	 * Responsibility:
-	 *   - The caller is responsible for ensuring proper authorization when this is set to true.
-	 * @security This parameter is security-sensitive. Improper use may lead to privilege escalation or unauthorized event tracking.
+	 * @return void
 	 */
-	public function track( string $event, array $properties, string $event_capability = '', bool $bypass_capability = false ): void {
-		if ( ! $bypass_capability ) {
-			/**
-			 * Filter the default capability required to track a specific event.
-			 *
-			 * @param string $capability The capability required to track the event.
-			 * @param string $event      The event name.
-			 * @param string $app        The application name.
-			 */
-			$default = apply_filters( 'wp_mixpanel_event_capability', 'manage_options', $event, $this->app );
+	public function track( string $event, array $properties, string $event_capability = '' ): void {
+		/**
+		 * Filter the default capability required to track a specific event.
+		 *
+		 * @param string $capability The capability required to track the event.
+		 * @param string $event      The event name.
+		 * @param string $app        The application name.
+		 */
+		$default = apply_filters( 'wp_mixpanel_event_capability', 'manage_options', $event, $this->app );
 
-			if ( empty( $event_capability ) ) {
-				$event_capability = $default;
-			}
-
-			if ( ! current_user_can( $event_capability ) ) {
-				return;
-			}
+		if ( empty( $event_capability ) ) {
+			$event_capability = $default;
 		}
 
+		if ( ! current_user_can( $event_capability ) ) {
+			return;
+		}
+
+		$this->track_direct( $event, $properties );
+	}
+
+	/**
+	 * Track an event directly in Mixpanel, bypassing capability checks.
+	 *
+	 * @param string  $event      Event name.
+	 * @param mixed[] $properties Event properties.
+	 *
+	 * @return void
+	 */
+	public function track_direct( string $event, array $properties ): void {
 		$host = wp_parse_url( get_home_url(), PHP_URL_HOST );
 
 		if ( ! $host ) {
@@ -101,18 +104,6 @@ class TrackingPlugin extends Tracking {
 
 		$properties = array_merge( $properties, $defaults );
 
-		$this->track_event_with_parent( $event, $properties );
-	}
-
-	/**
-	 * Tracks an event by calling the parent track method with a capitalized event name.
-	 *
-	 * @param string $event      The name of the event to be tracked.
-	 * @param array  $properties The properties associated with the event.
-	 *
-	 * @return void
-	 */
-	protected function track_event_with_parent( string $event, array $properties ): void {
 		parent::track( ucfirst( $event ), $properties );
 	}
 

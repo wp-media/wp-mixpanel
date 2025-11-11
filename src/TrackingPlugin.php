@@ -54,7 +54,15 @@ class TrackingPlugin extends Tracking {
 	 * @param string  $event      Event name.
 	 * @param mixed[] $properties Event properties.
 	 * @param string  $event_capability The capability required to track the event.
-	 * @param bool    $bypass_capability Whether to bypass capability check.
+	 * @param bool    $bypass_capability If true, bypasses capability checks. Use only when you have ensured proper authorization elsewhere.
+	 *
+	 * When should this parameter be used:
+	 *   - Only in trusted contexts where user authorization has already been verified.
+	 * Security implications:
+	 *   - Bypassing capability checks may allow unauthorized users to track events.
+	 * Responsibility:
+	 *   - The caller is responsible for ensuring proper authorization when this is set to true.
+	 * @security This parameter is security-sensitive. Improper use may lead to privilege escalation or unauthorized event tracking.
 	 */
 	public function track( string $event, array $properties, string $event_capability = '', bool $bypass_capability = false ): void {
 		/**

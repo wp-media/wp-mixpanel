@@ -50,7 +50,7 @@ class TrackTest extends TestCase {
 
 			Functions\expect( 'current_user_can' )
 				->never();
-			
+
 			return;
 		}
 

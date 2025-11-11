@@ -65,21 +65,23 @@ class TrackingPlugin extends Tracking {
 	 * @security This parameter is security-sensitive. Improper use may lead to privilege escalation or unauthorized event tracking.
 	 */
 	public function track( string $event, array $properties, string $event_capability = '', bool $bypass_capability = false ): void {
-		/**
-		 * Filter the default capability required to track a specific event.
-		 *
-		 * @param string $capability The capability required to track the event.
-		 * @param string $event      The event name.
-		 * @param string $app        The application name.
-		 */
-		$default = apply_filters( 'wp_mixpanel_event_capability', 'manage_options', $event, $this->app );
+		if ( ! $bypass_capability ) {
+			/**
+			 * Filter the default capability required to track a specific event.
+			 *
+			 * @param string $capability The capability required to track the event.
+			 * @param string $event      The event name.
+			 * @param string $app        The application name.
+			 */
+			$default = apply_filters( 'wp_mixpanel_event_capability', 'manage_options', $event, $this->app );
 
-		if ( empty( $event_capability ) ) {
-			$event_capability = $default;
-		}
+			if ( empty( $event_capability ) ) {
+				$event_capability = $default;
+			}
 
-		if ( ! $bypass_capability && ! current_user_can( $event_capability ) ) {
-			return;
+			if ( ! current_user_can( $event_capability ) ) {
+				return;
+			}
 		}
 
 		$host = wp_parse_url( get_home_url(), PHP_URL_HOST );

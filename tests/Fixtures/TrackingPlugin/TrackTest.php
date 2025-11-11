@@ -7,7 +7,6 @@ return [
 			'capability'        => 'manage_options',
 			'user_can'          => false,
 			'event_capability'  => '',
-			'bypass_capability' => false,
 		],
 		'expected' => [
 			'capability' => 'manage_options',
@@ -19,7 +18,6 @@ return [
 			'capability'        => 'edit_posts',
 			'user_can'          => false,
 			'event_capability'  => '',
-			'bypass_capability' => false,
 		],
 		'expected' => [
 			'capability' => 'edit_posts',
@@ -31,27 +29,9 @@ return [
 			'capability'        => 'manage_options',
 			'user_can'          => false,
 			'event_capability'  => 'edit_posts',
-			'bypass_capability' => false,
 		],
 		'expected' => [
 			'capability' => 'edit_posts',
-		],
-	],
-	'testShouldBypassCapabilityCheckWithBypassSetToTrue'   => [
-		'config'   => [
-			'event_capability'  => '',
-			'bypass_capability' => true,
-		],
-		'expected' => [
-			'properties' => [
-				'key'         => 'value',
-				'domain'      => '',
-				'wp_version'  => '',
-				'php_version' => '',
-				'plugin'      => 'test_plugin',
-				'brand'       => 'test_brand',
-				'application' => 'test_app',
-			],
 		],
 	],
 ];

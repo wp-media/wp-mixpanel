@@ -30,10 +30,7 @@ class TrackTest extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->tracking_plugin = $this->getMockBuilder( TrackingPlugin::class )
-			->setConstructorArgs( [ 'test_token', 'test_plugin', 'test_brand', 'test_app' ] )
-			->onlyMethods( [ 'track_event_with_parent', 'hash', 'get_wp_version', 'get_php_version' ] )
-			->getMock();
+		$this->tracking_plugin = new TrackingPlugin( 'test_token', 'test_plugin', 'test_brand', 'test_app' );
 	}
 
 	/**
@@ -47,40 +44,18 @@ class TrackTest extends TestCase {
 	 * @return void
 	 */
 	public function testShouldDoExpected( $config, $expected ) {
-		if ( $config['bypass_capability'] ) {
+
+		if ( $config['filter_value'] ) {
 			Filters\expectApplied( 'wp_mixpanel_event_capability' )
-				->never();
-
-			Functions\expect( 'current_user_can' )
-				->never();
-
-			Functions\expect( 'wp_parse_url' )
 				->once()
-				->andReturn( 'example.org' );
-
-			Functions\expect( 'get_home_url' )
-				->once()
-				->andReturn( 'example.org' );
-
-			$this->tracking_plugin->expects( $this->once() )
-				->method( 'track_event_with_parent' )
-				->with(
-					'event_name',
-					$expected['properties']
-				);
-		} else {
-			if ( $config['filter_value'] ) {
-				Filters\expectApplied( 'wp_mixpanel_event_capability' )
-					->once()
-					->andReturn( $config['filter_value'] );
-			}
-
-			Functions\expect( 'current_user_can' )
-				->once()
-				->with( $expected['capability'] )
-				->andReturn( $config['user_can'] );
+				->andReturn( $config['filter_value'] );
 		}
 
-		$this->tracking_plugin->track( 'event_name', [ 'key' => 'value' ], $config['event_capability'], $config['bypass_capability'] );
+		Functions\expect( 'current_user_can' )
+			->once()
+			->with( $expected['capability'] )
+			->andReturn( $config['user_can'] );
+
+		$this->tracking_plugin->track( 'event_name', [ 'key' => 'value' ], $config['event_capability'] );
 	}
 }

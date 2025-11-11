@@ -44,6 +44,16 @@ class TrackTest extends TestCase {
 	 * @return void
 	 */
 	public function testShouldDoExpected( $config, $expected ) {
+		if ( $config['bypass_capability'] ) {
+			Filters\expectApplied( 'wp_mixpanel_event_capability' )
+				->never();
+
+			Functions\expect( 'current_user_can' )
+				->never();
+			
+			return;
+		}
+
 		if ( $config['filter_value'] ) {
 			Filters\expectApplied( 'wp_mixpanel_event_capability' )
 				->once()
@@ -55,6 +65,6 @@ class TrackTest extends TestCase {
 			->with( $expected['capability'] )
 			->andReturn( $config['user_can'] );
 
-		$this->tracking_plugin->track( 'event_name', [ 'key' => 'value' ], $config['event_capability'] );
+		$this->tracking_plugin->track( 'event_name', [ 'key' => 'value' ], $config['event_capability'], $config['bypass_capability'] );
 	}
 }

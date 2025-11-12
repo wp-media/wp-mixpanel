@@ -44,6 +44,7 @@ class TrackTest extends TestCase {
 	 * @return void
 	 */
 	public function testShouldDoExpected( $config, $expected ) {
+
 		if ( $config['filter_value'] ) {
 			Filters\expectApplied( 'wp_mixpanel_event_capability' )
 				->once()

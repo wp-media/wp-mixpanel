@@ -103,16 +103,14 @@ The filter can takes 3 arguments:
 
 ## Request behaviour
 
-Events are sent with `wp_remote_post()` when the in-memory queue is flushed. Because analytics must never delay a response, requests are **non-blocking** and use a **1 second timeout**.
-
-Neither value is filterable or configurable — analytics is not important enough to be allowed to slow down a site, so there is no supported way to raise them.
+Events are sent with `wp_remote_post()` when the in-memory queue is flushed. Requests are **non-blocking** with a **1 second timeout**, and neither value is filterable or configurable: analytics must never delay a response.
 
 Two details are worth knowing:
 
-- **1 second is a floor, not a choice.** WordPress clamps the cURL timeout to a minimum of 1 second, because cURL's system DNS resolver uses `alarm()`, which only has second resolution. A smaller value would have no effect on the request.
-- **Non-blocking is not fire-and-forget.** WordPress still waits for the endpoint up to the timeout; it only skips reading and parsing the response. The timeout is what bounds the cost of a degraded endpoint.
+- **1 second is a floor, not a choice.** WordPress clamps the cURL timeout to a minimum of 1 second, so a smaller value would have no effect.
+- **Non-blocking is not fire-and-forget.** WordPress still waits for the endpoint up to the timeout, it only discards the response. The timeout is what bounds the cost of a degraded endpoint.
 
-A failed request is reported through the consumer's error callback and then **dropped**. It is not retried, because the producer's retry-on-flush behaviour would multiply the cost of an unreachable endpoint across every request.
+A failed request is reported through the consumer's error callback and then **dropped**, not retried, because the producer's retry-on-flush behaviour would multiply the cost of an unreachable endpoint.
 
 # Read more about MixPanel at group.one
 

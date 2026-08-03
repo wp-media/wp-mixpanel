@@ -62,8 +62,7 @@ class PersistTest extends TestCase {
 			->once()
 			->andReturn( $config['is_error'] );
 
-		// The timeout and blocking values are fixed: analytics must never delay a
-		// response, so they are neither filterable nor configurable.
+		// The timeout and blocking values are fixed, neither filterable nor configurable.
 		Functions\expect( 'wp_remote_post' )
 			->once()
 			->with(
@@ -71,14 +70,14 @@ class PersistTest extends TestCase {
 				[
 					'timeout'  => WPConsumer::REQUEST_TIMEOUT,
 					'blocking' => false,
-					// Mirrors AbstractConsumer::_encode(), which base64-encodes the JSON payload.
+					// Mirrors AbstractConsumer::_encode().
 					'body'     => 'data=' . base64_encode( (string) json_encode( $config['batch'] ) ), // phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode, WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
 				]
 			)
 			->andReturn( $config['is_error'] ? $this->createErrorResponse() : [ 'response' => [ 'code' => false ] ] );
 
-		// A failed request must still report the batch as consumed, otherwise the producer
-		// re-queues it and retries the flush up to 10 times at shutdown, once per producer.
+		// A failed request must still report the batch as consumed, or the producer
+		// re-queues it and retries the flush up to 10 times at shutdown.
 		$this->assertTrue( $consumer->persist( $config['batch'] ) );
 	}
 

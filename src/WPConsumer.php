@@ -13,11 +13,8 @@ class WPConsumer extends WPMedia_ConsumerStrategies_AbstractConsumer {
 	/**
 	 * Number of seconds to allow the request to execute.
 	 *
-	 * Analytics must never delay a response, so this is deliberately not
-	 * configurable. It is also the lowest value WordPress can honour: Requests clamps
-	 * the cURL timeout to a minimum of 1 second, because cURL's system DNS resolver
-	 * uses alarm(), which only has second resolution. A smaller value would have no
-	 * effect on the actual request.
+	 * Not configurable: analytics must never delay a response. Also the lowest value
+	 * WordPress honours, as it clamps the cURL timeout to a minimum of 1 second.
 	 *
 	 * @var int
 	 */
@@ -47,8 +44,7 @@ class WPConsumer extends WPMedia_ConsumerStrategies_AbstractConsumer {
 	/**
 	 * Creates a new WPConsumer and assigns properties from the $options array
 	 *
-	 * The timeout and blocking behaviour of the request is fixed and cannot be set
-	 * through the options.
+	 * The request timeout and blocking behaviour are fixed, and cannot be set here.
 	 *
 	 * @param array{host: string, endpoint: string, use_ssl?: bool} $options Options for the consumer.
 	 */
@@ -75,11 +71,8 @@ class WPConsumer extends WPMedia_ConsumerStrategies_AbstractConsumer {
 		$url  = $this->protocol . '://' . $this->host . $this->endpoint;
 		$data = 'data=' . $this->_encode( $batch );
 
-		/*
-		 * Note that a non-blocking request is not fire-and-forget: WordPress still waits
-		 * for the endpoint up to the timeout, it only skips reading and parsing the
-		 * response. The timeout is what bounds the cost of a degraded endpoint.
-		 */
+		// Non-blocking still waits up to the timeout, it only discards the response:
+		// the timeout is what bounds the cost of a degraded endpoint.
 		$response = wp_remote_post(
 			$url,
 			[
@@ -94,16 +87,9 @@ class WPConsumer extends WPMedia_ConsumerStrategies_AbstractConsumer {
 		}
 
 		/*
-		 * Always report the batch as consumed, even when the request failed.
-		 *
-		 * Analytics is non-essential, and returning false here is expensive: the producer
-		 * puts the batch back on the queue and retries the flush up to 10 times from its
-		 * destructor, once per producer. An unreachable endpoint would then cost up to
-		 * 10 timeouts for each of the events, people and groups producers, at PHP
-		 * shutdown, while the visitor is still waiting for the response.
-		 *
-		 * Dropping the batch keeps a degraded endpoint bounded to a single timeout.
-		 * Failures are still reported through _handleError().
+		 * Report the batch as consumed even on failure. Returning false would make the
+		 * producer re-queue it and retry the flush up to 10 times at shutdown, once per
+		 * producer, multiplying the cost of an unreachable endpoint.
 		 *
 		 * @see \WPMedia_Producers_MixpanelBaseProducer::__destruct()
 		 */

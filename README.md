@@ -101,6 +101,28 @@ The filter can takes 3 arguments:
 - `$event` the current event name
 - `$app` the current app name
 
+## Request behaviour
+
+Events are sent with `wp_remote_post()` when the in-memory queue is flushed. Because analytics must never delay a response, requests are **non-blocking** and use a **1 second timeout** by default.
+
+Two filters control this, both receiving the target host as their second argument:
+
+- `wp_media_mixpanel_request_timeout` — the timeout in seconds. Non-numeric values fall back to the default.
+- `wp_media_mixpanel_request_blocking` — whether the request waits for a response.
+
+```php
+add_filter( 'wp_media_mixpanel_request_timeout', function( $timeout, $host ) {
+	return 2;
+}, 10, 2 );
+```
+
+Two things are worth knowing before changing these:
+
+- **1 second is a floor, not a default.** WordPress clamps the cURL timeout to a minimum of 1 second, because cURL's system DNS resolver uses `alarm()`, which only has second resolution. Passing a smaller value has no effect on the request.
+- **Non-blocking is not fire-and-forget.** WordPress still waits for the endpoint up to the timeout; it only skips reading and parsing the response. The timeout is what bounds the cost of a degraded endpoint.
+
+A failed request is reported through the consumer's error callback and then **dropped**. It is not retried, because the producer's retry-on-flush behaviour would multiply the cost of an unreachable endpoint across every request.
+
 # Read more about MixPanel at group.one
 
 More information about how MixPanel is used at group.one is available in [our internal documentation](https://group-one.atlassian.net/wiki/spaces/PA1/folder/33940931155?atlOrigin=eyJpIjoiZGNhYmI5MDMyZmZiNGY4MmIzOWZkNDNmZmY3ZjcyNDAiLCJwIjoiYyJ9). 

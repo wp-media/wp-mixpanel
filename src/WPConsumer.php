@@ -11,16 +11,17 @@ use WPMedia_ConsumerStrategies_AbstractConsumer;
 class WPConsumer extends WPMedia_ConsumerStrategies_AbstractConsumer {
 
 	/**
-	 * Default number of seconds to allow the request to execute.
+	 * Number of seconds to allow the request to execute.
 	 *
-	 * This is also the lowest value WordPress can honour: Requests clamps the cURL
-	 * timeout to a minimum of 1 second, because cURL's system DNS resolver uses
-	 * alarm(), which only has second resolution. Passing a smaller value has no
+	 * Analytics must never delay a response, so this is deliberately not
+	 * configurable. It is also the lowest value WordPress can honour: Requests clamps
+	 * the cURL timeout to a minimum of 1 second, because cURL's system DNS resolver
+	 * uses alarm(), which only has second resolution. A smaller value would have no
 	 * effect on the actual request.
 	 *
 	 * @var int
 	 */
-	const DEFAULT_TIMEOUT = 1;
+	const REQUEST_TIMEOUT = 1;
 
 	/**
 	 * The host to connect to (e.g. api.mixpanel.com)
@@ -37,20 +38,6 @@ class WPConsumer extends WPMedia_ConsumerStrategies_AbstractConsumer {
 	protected $endpoint;
 
 	/**
-	 * The maximum number of seconds to allow the call to execute.
-	 *
-	 * @var int|float
-	 */
-	protected $timeout;
-
-	/**
-	 * Whether the request waits for a response.
-	 *
-	 * @var bool
-	 */
-	protected $blocking;
-
-	/**
 	 * The protocol to use for the cURL connection
 	 *
 	 * @var string
@@ -60,63 +47,17 @@ class WPConsumer extends WPMedia_ConsumerStrategies_AbstractConsumer {
 	/**
 	 * Creates a new WPConsumer and assigns properties from the $options array
 	 *
-	 * @param array{host:string, endpoint:string, timeout?: int|float, blocking?: bool, use_ssl?: bool} $options Options for the consumer.
+	 * The timeout and blocking behaviour of the request is fixed and cannot be set
+	 * through the options.
+	 *
+	 * @param array{host: string, endpoint: string, use_ssl?: bool} $options Options for the consumer.
 	 */
 	public function __construct( $options ) {
 		parent::__construct( $options );
 
 		$this->host     = $options['host'];
 		$this->endpoint = $options['endpoint'];
-		$this->timeout  = isset( $options['timeout'] ) ? $options['timeout'] : self::DEFAULT_TIMEOUT;
-		$this->blocking = isset( $options['blocking'] ) ? (bool) $options['blocking'] : false;
 		$this->protocol = isset( $options['use_ssl'] ) && ( true === $options['use_ssl'] ) ? 'https' : 'http';
-	}
-
-	/**
-	 * Get the timeout, in seconds, to use for the request
-	 *
-	 * @return int|float
-	 */
-	protected function get_timeout() {
-		/**
-		 * Filters the timeout, in seconds, for analytics requests.
-		 *
-		 * Values below 1 have no effect: WordPress clamps the cURL timeout to a minimum
-		 * of 1 second. Keep this value low, analytics must never delay a response.
-		 *
-		 * @param mixed  $timeout Request timeout in seconds, as an int or a float.
-		 *                        Non-numeric values fall back to self::DEFAULT_TIMEOUT.
-		 * @param string $host    Host the request is sent to.
-		 */
-		$timeout = apply_filters( 'wp_media_mixpanel_request_timeout', $this->timeout, $this->host );
-
-		if ( is_int( $timeout ) || is_float( $timeout ) ) {
-			return $timeout;
-		}
-
-		if ( is_numeric( $timeout ) ) {
-			return (float) $timeout;
-		}
-
-		return self::DEFAULT_TIMEOUT;
-	}
-
-	/**
-	 * Check whether the request should wait for a response
-	 *
-	 * @return bool
-	 */
-	protected function is_blocking(): bool {
-		/**
-		 * Filters whether analytics requests wait for a response.
-		 *
-		 * Note that a non-blocking request is not fire-and-forget: WordPress still waits
-		 * for the endpoint up to the timeout, it only discards the response.
-		 *
-		 * @param bool   $blocking Whether the request waits for a response.
-		 * @param string $host     Host the request is sent to.
-		 */
-		return (bool) apply_filters( 'wp_media_mixpanel_request_blocking', $this->blocking, $this->host );
 	}
 
 	/**
@@ -134,11 +75,16 @@ class WPConsumer extends WPMedia_ConsumerStrategies_AbstractConsumer {
 		$url  = $this->protocol . '://' . $this->host . $this->endpoint;
 		$data = 'data=' . $this->_encode( $batch );
 
+		/*
+		 * Note that a non-blocking request is not fire-and-forget: WordPress still waits
+		 * for the endpoint up to the timeout, it only skips reading and parsing the
+		 * response. The timeout is what bounds the cost of a degraded endpoint.
+		 */
 		$response = wp_remote_post(
 			$url,
 			[
-				'timeout'  => $this->get_timeout(),
-				'blocking' => $this->is_blocking(),
+				'timeout'  => self::REQUEST_TIMEOUT,
+				'blocking' => false,
 				'body'     => $data,
 			]
 		);

@@ -103,22 +103,13 @@ The filter can takes 3 arguments:
 
 ## Request behaviour
 
-Events are sent with `wp_remote_post()` when the in-memory queue is flushed. Because analytics must never delay a response, requests are **non-blocking** and use a **1 second timeout** by default.
+Events are sent with `wp_remote_post()` when the in-memory queue is flushed. Because analytics must never delay a response, requests are **non-blocking** and use a **1 second timeout**.
 
-Two filters control this, both receiving the target host as their second argument:
+Neither value is filterable or configurable — analytics is not important enough to be allowed to slow down a site, so there is no supported way to raise them.
 
-- `wp_media_mixpanel_request_timeout` — the timeout in seconds. Non-numeric values fall back to the default.
-- `wp_media_mixpanel_request_blocking` — whether the request waits for a response.
+Two details are worth knowing:
 
-```php
-add_filter( 'wp_media_mixpanel_request_timeout', function( $timeout, $host ) {
-	return 2;
-}, 10, 2 );
-```
-
-Two things are worth knowing before changing these:
-
-- **1 second is a floor, not a default.** WordPress clamps the cURL timeout to a minimum of 1 second, because cURL's system DNS resolver uses `alarm()`, which only has second resolution. Passing a smaller value has no effect on the request.
+- **1 second is a floor, not a choice.** WordPress clamps the cURL timeout to a minimum of 1 second, because cURL's system DNS resolver uses `alarm()`, which only has second resolution. A smaller value would have no effect on the request.
 - **Non-blocking is not fire-and-forget.** WordPress still waits for the endpoint up to the timeout; it only skips reading and parsing the response. The timeout is what bounds the cost of a degraded endpoint.
 
 A failed request is reported through the consumer's error callback and then **dropped**. It is not retried, because the producer's retry-on-flush behaviour would multiply the cost of an unreachable endpoint across every request.

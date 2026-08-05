@@ -10,7 +10,7 @@ abstract class TestCase extends BaseTestCase {
 	/**
 	 * Configuration for the test data.
 	 *
-	 * @var array{'test_data'?: array<string, mixed>}
+	 * @var array<string, mixed>
 	 */
 	protected $config;
 
@@ -37,9 +37,9 @@ abstract class TestCase extends BaseTestCase {
 			$this->loadTestDataConfig();
 		}
 
-		return isset( $this->config['test_data'] )
-			? $this->config['test_data']
-			: $this->config;
+		$test_data = $this->config['test_data'] ?? $this->config;
+
+		return is_array( $test_data ) ? $test_data : [];
 	}
 
 	/**

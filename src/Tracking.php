@@ -6,7 +6,7 @@ namespace WPMedia\Mixpanel;
 use WPMedia_Mixpanel;
 
 class Tracking {
-	const HOST = 'mixpanel-proxy.group.one';
+	const HOST = 'api-eu.mixpanel.com';
 
 	/**
 	 * Mixpanel instance
